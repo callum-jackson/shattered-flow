@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://csam7qq7s7p8h"]
+
+[ext_resource type="PackedScene" uid="uid://ddwpj12cc2kxa" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://b7qgnph7lqh8f" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://ca7rqowjgld4h" path="res://scenes/shard.tscn" id="2_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://dfkuaqyqwdbxa" path="res://assets/proprietary/background.png" id="3_jyhfs"]
+[ext_resource type="FontFile" uid="uid://b57laaij4ajyw" path="res://assets/fonts/VarelaRound-Regular.ttf" id="5_tbgi4"]
+
+[sub_resource type="Curve2D" id="Curve2D_0wfyh"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 270, 0, 0, 0, 0, 0, 270, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Main" type="Node"]
+script = ExtResource("1_sugp2")
+shard_scene = ExtResource("2_0wfyh")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_jyhfs")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+z_index = 1
+copy_mode = 2
+
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(240, 135)
+
+[node name="ShardStartTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShardSpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ShardPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_0wfyh")
+
+[node name="ShardSpawnLocation" type="PathFollow2D" parent="ShardPath"]
+
+[node name="ScoreTimerLabel" type="Label" parent="."]
+z_index = 5
+offset_left = 5.0
+offset_right = 162.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0.278427, 0.278427, 0.278427, 1)
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("5_tbgi4")
+theme_override_font_sizes/font_size = 20
+text = "Time: 00:00:00"
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="ShardStartTimer" to="." method="_on_shard_start_timer_timeout"]
+[connection signal="timeout" from="ShardSpawnTimer" to="." method="_on_shard_spawn_timer_timeout"]

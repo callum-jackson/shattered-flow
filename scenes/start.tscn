@@ -1,0 +1,128 @@
+[gd_scene load_steps=11 format=3 uid="uid://uunrg6u8mvpl"]
+
+[ext_resource type="Script" uid="uid://kekqg3vmv7r1" path="res://scripts/start.gd" id="1_jaeev"]
+[ext_resource type="Texture2D" uid="uid://dfkuaqyqwdbxa" path="res://assets/proprietary/background.png" id="2_u80x2"]
+[ext_resource type="PackedScene" uid="uid://ddwpj12cc2kxa" path="res://scenes/player.tscn" id="3_bodal"]
+[ext_resource type="FontFile" uid="uid://b57laaij4ajyw" path="res://assets/fonts/VarelaRound-Regular.ttf" id="3_y16t7"]
+[ext_resource type="Texture2D" uid="uid://e78ridpsahwa" path="res://assets/sprites/logo.svg" id="5_0auqf"]
+[ext_resource type="Texture2D" uid="uid://g0tuueiurtkm" path="res://assets/sprites/begin_text.svg" id="6_8itgj"]
+[ext_resource type="Texture2D" uid="uid://8asnvksqma3q" path="res://assets/sprites/begin_area.svg" id="7_8itgj"]
+[ext_resource type="Shader" uid="uid://dqvt5ijsabinn" path="res://shaders/glass.gdshader" id="7_tn317"]
+[ext_resource type="PackedScene" uid="uid://kw72geegrlrg" path="res://scenes/transition.tscn" id="9_tn317"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8nf6"]
+shader = ExtResource("7_tn317")
+shader_parameter/albedo_tex = ExtResource("7_8itgj")
+shader_parameter/use_refraction = true
+shader_parameter/refract_pixels = 8.0
+shader_parameter/albedo_mix = 0.6
+shader_parameter/master_opacity = 1.0
+shader_parameter/glass_tint_color = Vector3(0.85, 0.95, 1)
+shader_parameter/glass_tint = 0.18
+shader_parameter/edge_normal_gain = 1.4
+shader_parameter/bulge_gain = 0.8
+shader_parameter/sphere_center = Vector2(0.5, 0.5)
+shader_parameter/fresnel_power = 2.0
+shader_parameter/rim_strength = 0.15
+shader_parameter/min_px_for_refract = 1.25
+shader_parameter/clamp_margin_uv = 0.002
+
+[node name="Start" type="Node"]
+script = ExtResource("1_jaeev")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_u80x2")
+stretch_mode = 1
+
+[node name="Logo" type="TextureRect" parent="."]
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -133.0
+offset_right = 134.0
+offset_bottom = 120.0
+grow_horizontal = 2
+size_flags_vertical = 8
+texture = ExtResource("5_0auqf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Player" parent="." instance=ExtResource("3_bodal")]
+z_index = 1
+position = Vector2(299.5, 77)
+
+[node name="DescriptionLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -43.0
+offset_right = 200.0
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.278427, 0.278427, 0.278427, 1)
+theme_override_constants/paragraph_spacing = 0
+theme_override_fonts/font = ExtResource("3_y16t7")
+theme_override_font_sizes/font_size = 12
+text = "You are a fragile droplet of liquid glass adrift in a world of danger. Last for as long as you can, every second counts.
+
+Use the arrow keys to glide and weave between shards that threaten to shatter you in an instant."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BeginArea" type="Area2D" parent="."]
+position = Vector2(240, 270)
+scale = Vector2(1.5, 1.5)
+metadata/_edit_group_ = true
+
+[node name="BeginText" type="TextureRect" parent="BeginArea"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -55.0
+offset_top = -32.0
+offset_right = 55.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("6_8itgj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BeginCircle" type="TextureRect" parent="BeginArea"]
+material = SubResource("ShaderMaterial_m8nf6")
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -55.0
+offset_top = -32.0
+offset_right = 55.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_8itgj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BeginArea"]
+visible = false
+polygon = PackedVector2Array(-28, 0, -15, -10, 0, -13, 15, -10, 28, 0)
+
+[node name="Transition" parent="." instance=ExtResource("9_tn317")]
+visible = false
+
+[connection signal="area_entered" from="BeginArea" to="." method="_on_begin_area_entered"]

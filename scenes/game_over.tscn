@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbjq5trd4gwfj"]
+
+[ext_resource type="Script" uid="uid://bb6cfr3k53vth" path="res://scripts/game_over.gd" id="1_wqhvx"]
+[ext_resource type="Texture2D" uid="uid://dfkuaqyqwdbxa" path="res://assets/proprietary/background.png" id="2_racf3"]
+[ext_resource type="FontFile" uid="uid://b57laaij4ajyw" path="res://assets/fonts/VarelaRound-Regular.ttf" id="3_tbwuq"]
+
+[node name="GameOver" type="Node"]
+script = ExtResource("1_wqhvx")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_racf3")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = -28.0
+offset_right = 107.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.278427, 0.278427, 0.278427, 1)
+theme_override_fonts/font = ExtResource("3_tbwuq")
+theme_override_font_sizes/font_size = 36
+text = "Time: 00:00:00"
+
+[node name="RetryLabel" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -137.0
+offset_top = -57.0
+offset_right = 137.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.278427, 0.278427, 0.278427, 1)
+theme_override_fonts/font = ExtResource("3_tbwuq")
+theme_override_font_sizes/font_size = 20
+text = "Press Enter to play again"
+horizontal_alignment = 1
+vertical_alignment = 1

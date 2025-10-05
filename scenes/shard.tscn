@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://ca7rqowjgld4h"]
+
+[ext_resource type="Shader" uid="uid://dqvt5ijsabinn" path="res://shaders/glass.gdshader" id="1_ua2y8"]
+[ext_resource type="Script" uid="uid://coxdgf0lisk4h" path="res://scripts/shard.gd" id="1_x0ayr"]
+[ext_resource type="Texture2D" uid="uid://c3plcnw1gk3kn" path="res://assets/sprites/shard.svg" id="4_xr22o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xr22o"]
+shader = ExtResource("1_ua2y8")
+shader_parameter/use_refraction = true
+shader_parameter/refract_pixels = 3.0
+shader_parameter/albedo_mix = 0.3
+shader_parameter/master_opacity = 1.0
+shader_parameter/glass_tint_color = Vector3(0.85, 0.95, 1)
+shader_parameter/glass_tint = 0.18
+shader_parameter/edge_normal_gain = 1.4
+shader_parameter/bulge_gain = 0.8
+shader_parameter/sphere_center = Vector2(0.5, 0.5)
+shader_parameter/fresnel_power = 2.0
+shader_parameter/rim_strength = 0.15
+shader_parameter/min_px_for_refract = 0.75
+shader_parameter/clamp_margin_uv = 0.002
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ua2y8"]
+shader = ExtResource("1_ua2y8")
+shader_parameter/albedo_tex = ExtResource("4_xr22o")
+shader_parameter/use_refraction = true
+shader_parameter/refract_pixels = 8.0
+shader_parameter/albedo_mix = 0.7
+shader_parameter/master_opacity = 1.0
+shader_parameter/glass_tint_color = Vector3(0.85, 0.95, 1)
+shader_parameter/glass_tint = 0.2
+shader_parameter/edge_normal_gain = 1.4
+shader_parameter/bulge_gain = 0.8
+shader_parameter/sphere_center = Vector2(0.5, 0.5)
+shader_parameter/fresnel_power = 2.0
+shader_parameter/rim_strength = 0.15
+shader_parameter/min_px_for_refract = 1.0
+shader_parameter/clamp_margin_uv = 0.002
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ua2y8"]
+radius = 12.8062
+
+[node name="Shard" type="RigidBody2D"]
+z_index = 2
+material = SubResource("ShaderMaterial_xr22o")
+collision_mask = 0
+mass = 1.101
+gravity_scale = 0.0
+script = ExtResource("1_x0ayr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ua2y8")
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("4_xr22o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3.66737e-09)
+rotation = 0.786199
+shape = SubResource("CircleShape2D_ua2y8")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
