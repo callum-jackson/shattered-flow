@@ -1,0 +1,3 @@
+[submodule "assets/proprietary"]
+	path = assets/proprietary
+	url = https://github.com/callum-jackson/shattered-flow-priv
